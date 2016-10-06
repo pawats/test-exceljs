@@ -3,7 +3,7 @@
 	<head>
 		<title>Test Exceljs</title>
 		<style>
-			input[type="submit"] {
+			input[type="submit"], button {
 				border:0 none;
 				font-size: 30px;
 			}
@@ -11,6 +11,7 @@
 	</head>
 
 	<body>
+		<a href="test-client.html">Test Client side HTML->Excel</a>
 		<h2>Test Exceljs REST API</h2>
 
 		<form 
@@ -48,9 +49,49 @@
 
 
 		<h2>Test Large File</h2>
-		<button>Test</button>
+		<button onclick="addData()">Test</button>
+		<script src='jquery-3.1.1.min.js'></script>
 		<script>
-			
+
+		function shuffle(array) {
+		  var currentIndex = array.length, temporaryValue, randomIndex;
+
+		  // While there remain elements to shuffle...
+		  while (0 !== currentIndex) {
+
+		    // Pick a remaining element...
+		    randomIndex = Math.floor(Math.random() * currentIndex);
+		    currentIndex -= 1;
+
+		    // And swap it with the current element.
+		    temporaryValue = array[currentIndex];
+		    array[currentIndex] = array[randomIndex];
+		    array[randomIndex] = temporaryValue;
+		  }
+
+		  return array;
+		};
+
+		function addData(){
+			var names = ['Jane', 'Justin', 'Adam', 'John', 'Jeff', 'Brad', 'Oliver', 'Peter', 'Alice', 'Bob', 'Eve']
+			var fruits = ['apple', 'banana', 'pineapple', 'grapes', 'orange', 'blueberry', 'strawberry'];
+			var data = [];
+
+			data.push(names);
+
+			for(var i = 0; i < 5000; i++){
+				//Deep copy
+				//http://stackoverflow.com/questions/597588/how-do-you-clone-an-array-of-objects-in-javascript
+				data.push(JSON.parse(JSON.stringify(shuffle(fruits))))	
+			}
+
+
+			$('#dataTextarea').val(JSON.stringify(data))
+			// $.post('/stream', {'data': JSON.stringify(data)}, function(res){
+			// 	console.log(res);
+			// })			
+		};
+
 		</script>
 	</body>
 
