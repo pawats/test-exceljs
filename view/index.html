@@ -1,0 +1,57 @@
+<html>
+
+	<head>
+		<title>Test Exceljs</title>
+		<style>
+			input[type="submit"] {
+				border:0 none;
+				font-size: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h2>Test Exceljs REST API</h2>
+
+		<form 
+			action="/stream" 
+			method="POST"
+		>
+			<fieldset>
+				<legend>File name</legend>
+				<input 
+					type="text" 
+					style="font-size:20px" 
+					size="100" 
+					name="filename" 
+					placeholder="Enter file name"
+				>
+
+				<legend>Input Data</legend>
+				<textarea 
+					placeholder="Enter data that can be input to JSON.parse() e.g. [[1,2,3], [4,5,6]]" 
+					name="data" 
+					rows="8" 
+					cols="100" 
+					id="dataTextarea" 
+					style="font-size:20px"
+				></textarea>
+
+				<br><br>
+
+				<input 
+					type="submit" 
+				>
+			</fieldset>
+
+		</form>
+
+
+		<h2>Test Large File</h2>
+		<button>Test</button>
+		<script>
+			
+		</script>
+	</body>
+
+</html>

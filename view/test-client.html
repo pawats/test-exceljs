@@ -1,0 +1,140 @@
+<html>
+	<head></head>
+	<body>
+
+		<button onclick="fnExcelReport()">To Excel</button>
+		<a id="download" onClick="javascript:fnExcelReport2()">To Excel 2</a>
+
+		<div id="exportExcel">
+		<table>
+			<tr>
+				<td colspan="8">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed placerat placerat velit, nec euismod mi tempor ac. Curabitur sit amet orci nulla. Nunc metus nisl, vulputate quis massa id, facilisis ullamcorper justo. Phasellus nec augue eu augue sagittis suscipit a accumsan mi. Donec placerat diam eget rutrum hendrerit. Aliquam eu vehicula sem. In eget bibendum justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean volutpat leo ut leo consectetur congue. Cras porttitor justo nisl, nec viverra urna luctus ac.
+
+					Mauris nec convallis libero. Maecenas rhoncus, mi id pellentesque venenatis, turpis eros consectetur tellus, eget bibendum felis leo nec nulla. Ut vitae dolor in massa bibendum efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus eu lectus fermentum, rutrum elit eu, egestas leo. Nulla nec elit eget mi rhoncus malesuada non ut tellus. Mauris in quam nulla. Integer in imperdiet risus, ac porttitor ante. Quisque tempor ex vel quam varius maximus. Nunc interdum ut sem ut iaculis. Donec id ante mattis, ultrices tellus quis, condimentum ex. Sed at lacinia metus.
+
+					Phasellus eget elit ut erat dignissim commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque commodo lacus purus, non tristique tortor feugiat tincidunt. Maecenas et sem ac ante imperdiet laoreet. Integer tempor, urna vel viverra convallis, justo massa dapibus est, eget malesuada enim neque non nulla. Proin dolor ligula, interdum vel sodales sit amet, rutrum in tortor. Phasellus quis aliquet est. Nunc porttitor congue viverra. Nulla facilisi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec dapibus odio sit amet urna blandit, vel facilisis purus eleifend. Integer velit ipsum, interdum vitae elit vitae, dapibus venenatis elit. Curabitur gravida porttitor arcu id pretium.					
+				</td>
+			</tr>
+		</table>
+
+			<table id="headerTable">
+				<thead id="tableHead">
+				</thead>
+				<tbody id="tableBody">
+				</tbody>
+			</table>
+		</div>
+
+
+		<script src='jquery-3.1.1.min.js'></script>
+		<script>
+			var columns = 20;
+			var tableHead = $('#tableHead');
+			var table = $('#tableBody');
+
+			var names = ['Jane', 'Justin', 'Adam', 'John', 'Jeff', 'Brad', 'Oliver', 'Peter', 'Alice', 'Bob', 'Eve']
+			var fruits = ['apple', 'banana', 'pineapple', 'grapes', 'orange', 'blueberry', 'strawberry'];
+			var fruitStyles = [
+			"background-color:red; color:white; font-size:30px; font-weight:bold;",
+			"background-color:yellow; color:black;",
+			"background-color:yellow; color:white;",
+			"background-color:DARKMAGENTA; color:white; text-align:center;",
+			"background-color:orange;",
+			"background-color:blue; font-size:25px; font-style:italic;",
+			"background-color:red"
+			]
+
+
+			var headerRow = "";
+			for(var c = 0; c < columns; c++){
+				var nameNumber = Math.floor(Math.random() * names.length);
+				var thisName = names[nameNumber];
+				headerRow = headerRow + "<th>" + thisName + "</th>"
+			}
+			tableHead.append("<tr>" + headerRow + "</tr>");
+
+			for(var i = 0; i < 1000; i++){
+				var row = "";
+				for(var c = 0; c < columns; c++){
+					var fruitNumber = Math.floor(Math.random()*fruits.length);
+					var thisFruit = fruits[fruitNumber];
+					var thisFruitStyle = fruitStyles[fruitNumber];
+
+					row = row + "<td style='"+thisFruitStyle+"'>" + thisFruit + "</td>"
+				}
+				table.append("<tr>" + row + "</tr>");
+				// console.log(i)
+			}
+		</script>
+		<script>
+			function fnExcelReport()
+			{
+			    var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
+			    var textRange; var j=0;
+			    tab = document.getElementById('headerTable'); // id of table
+
+			    for(j = 0 ; j < tab.rows.length ; j++) 
+			    {     
+			        tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
+			        //tab_text=tab_text+"</tr>";
+			    }
+
+			    tab_text = tab_text+"</table>";
+			    tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+			    tab_text = tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+			    tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+			    var ua = window.navigator.userAgent;
+			    var msie = ua.indexOf("MSIE "); 
+
+			    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+			    {
+			        txtArea1.document.open("txt/html","replace");
+			        txtArea1.document.write(tab_text);
+			        txtArea1.document.close();
+			        txtArea1.focus(); 
+			        sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
+			    }  
+			    else                 //other browser not tested on IE 11
+			        sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+
+			    return (sa);
+			}
+
+			function fnExcelReport2() {
+			    var tab_text = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
+			    tab_text = tab_text + '<head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>';
+
+			    tab_text = tab_text + '<x:Name>Test Sheet</x:Name>';
+
+			    tab_text = tab_text + '<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>';
+			    tab_text = tab_text + '</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>';
+
+			    tab_text = tab_text + "<table border='1px'>";
+			    tab_text = tab_text + $('#exportExcel').html();
+			    tab_text = tab_text + '</table></body></html>';
+
+			    var data_type = 'data:application/vnd.ms-excel';
+			    
+			    var ua = window.navigator.userAgent;
+			    var msie = ua.indexOf("MSIE ");
+			    
+			    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+			        if (window.navigator.msSaveBlob) {
+			            var blob = new Blob([tab_text], {
+			                type: "application/csv;charset=utf-8;"
+			            });
+			            navigator.msSaveBlob(blob, 'Test file.xls');
+			        }
+			    } else {
+			        $('#download').attr('href', data_type + ', ' + encodeURIComponent(tab_text));
+			        $('#download').attr('download', 'Test file.xls');
+			    }
+
+			}
+
+
+		</script>
+	</body>
+</html>

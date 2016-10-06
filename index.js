@@ -1,11 +1,18 @@
 var express = require('express');
 var Excel = require('exceljs');
 var fs = require('fs');
+var bodyParser = require('body-parser');
 
 var app = express();
 
+app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
+app.use(express.static('view'));
 
-app.get('/file', function (req, res) {
+
+app.post('/file', function (req, res) {
 	var myColumns = ['Name', 'Country'];
 	var myRows = [
 					myColumns, 
@@ -23,21 +30,35 @@ app.get('/file', function (req, res) {
 });
 
 
-app.get('/stream', function (req, res) {
-	var myColumns = ['Name', 'Country'];
-	var myRows = [
-					myColumns, 
-					['Pat', 'Thailand']
-				];
+app.post('/stream', function (req, res) {
+	var data;
+	var filename = "output.xlsx";
 
-	var filename = 'output.xlsx';
+	if(req.body.data.length > 0)
+	{
+		data = JSON.parse(req.body.data);
 
-	//https://github.com/guyonroche/exceljs/issues/150
-	res.setHeader('Content-disposition', 'attachment; filename='+filename);
-	createExcelStream('MySheet', myRows, res);
+		if(req.body.filename){
+			filename = req.body.filename + '.xlsx';	
+		}
+
+		//https://github.com/guyonroche/exceljs/issues/150
+		res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+		createExcelStream('MySheet', data, res);
+
+	}
+	
+	else
+	{
+		res.end('Please enter data')
+	}
 
 });
 
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
