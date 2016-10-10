@@ -19,11 +19,16 @@ app.use(express.static('view'));
 
 
 app.post('/excel4node/generate', function(req, res){
+	if(req.body.data.length > 0){
 		var data = JSON.parse(req.body.data);
 		var filename = req.body.filename ? req.body.filename : undefined;
 		var mergeCells = req.body.mergecells ? JSON.parse(req.body.mergecells) : undefined;
 
-		testExcel4Node.generate(filename, data, mergeCells, res);		
+		testExcel4Node.generate(filename, data, mergeCells, res);			
+	}else{
+		res.end('no input data!')
+	}
+	
 })
 
 
@@ -74,7 +79,7 @@ app.post('/exceljs/file', function (req, res) {
 
 app.use(function(err, req, res, next) {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send(String(err));
 });
 
 app.listen(3000, function () {

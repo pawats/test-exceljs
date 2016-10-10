@@ -2,6 +2,9 @@ var xl = require ('excel4node');
 
 
 var generate = function(filename, data, mergeCells, res){
+
+	console.log(data);
+
 	// Create a new instance of a Workbook class
 	var wb = new xl.Workbook();
 
@@ -80,7 +83,6 @@ var generate = function(filename, data, mergeCells, res){
 
 
 	ws.column(3).setWidth(25);
-
 
 
 	var filename = (filename) ? (filename + '.xlsx') : ('output.xlsx');
