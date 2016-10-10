@@ -40,7 +40,7 @@
 				></textarea>
 
 				<br><br>
-
+				<input type="text" name="mergecells" id="mergecells">
 				<input 
 					type="submit" 
 				>
@@ -74,6 +74,14 @@
 		// };
 
 		function addData(){
+			var paragraph = "Earth (otherwise known as the world,[n 5] in Greek: Γαῖα Gaia,[n 6] or in Latin: Terra[26]) is the third planet from the Sun, the densest planet in the Solar System, the largest of the Solar System's four terrestrial planets, and the only astronomical object known to harbor life.\n\n According to radiometric dating and other sources of evidence, Earth formed about 4.54 billion years ago.[27][28][29] Earth gravitationally interacts with other objects in space, especially the Sun and the Moon. During one orbit around the Sun, Earth rotates about its own axis 366.26 times, creating 365.26 solar days or one sidereal year.[n 7] Earth's axis of rotation is tilted 23.4° away from the perpendicular of its orbital plane, producing seasonal variations on the planet's surface within a period of one tropical year (365.24 solar days).[30] The Moon is the Earth's only permanent natural satellite; their gravitational interaction causes ocean tides, stabilizes the orientation of Earth's rotational axis, and gradually slows Earth's rotational rate.[31]\n\n Earth's lithosphere is divided into several rigid tectonic plates that migrate across the surface over periods of many millions of years. 71% of Earth's surface is covered with water.[32] The remaining 29% is land mass—consisting of continents and islands—that together has many lakes, rivers, and other sources of water that contribute to the hydrosphere. The majority of Earth's polar regions are covered in ice, including the Antarctic ice sheet and the sea ice of the Arctic ice pack. Earth's interior remains active with a solid iron inner core, a liquid outer core that generates the Earth's magnetic field, and a convecting mantle that drives plate tectonics.\n\n Within the first billion years of Earth's history, life appeared in the oceans and began to affect the atmosphere and surface, leading to the proliferation of aerobic and anaerobic organisms. Since then, the combination of Earth's distance from the Sun, physical properties, and geological history have allowed life to evolve and thrive. Life arose on Earth by 3.5 billion years ago, though some geological evidence indicates that life may have arisen as much as 4.1 billion years ago.[33][34] In the history of the Earth, biodiversity has gone through long durations of expansion, but occasionally punctuated by mass extinction events. Over 99% of all species of life[35] that ever lived on Earth are extinct.[36][37] Estimates of the number of species on Earth today vary widely;[38][39][40] most species have not been described.[41] Over 7.3 billion humans[42] live on Earth and depend on its biosphere and minerals for their survival. Humanity has developed diverse societies and cultures; politically, the world is divided into about 200 sovereign states."
+
+			var paragraphStyle = {
+				alignment: {
+					wrapText: true
+				}
+			};
+
 			var names = ['Jane', 'Justin', 'Adam', 'John', 'Jeff', 'Brad', 'Oliver', 'Peter', 'Alice', 'Bob', 'Eve']
 			var fruits = ['apple', 'banana', 'pineapple', 'grapes', 'orange', 'blueberry', 'strawberry', 17];
 			var fruitStyles = [
@@ -127,7 +135,8 @@
 			var columns = 10;
 			var rows = 300;
 			var data = [];
-
+			var paragraphRow = [{value: paragraph, style: paragraphStyle}];
+			data.push(paragraphRow);
 			// data.push(names);
 
 			for(var i = 0; i < rows; i++){
@@ -144,8 +153,8 @@
 				}
 				data.push(temp);
 			}
-
-
+			var mergeCells = [{startRow: 1, startColumn: 1, endRow: 1, endColumn: 8}];
+			$('#mergecells').val(JSON.stringify(mergeCells));
 			$('#dataTextarea').val(JSON.stringify(data))
 		};
 

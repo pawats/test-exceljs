@@ -1,7 +1,7 @@
 var xl = require ('excel4node');
 
 
-var generate = function(filename, data, res){
+var generate = function(filename, data, mergeCells, res){
 	// Create a new instance of a Workbook class
 	var wb = new xl.Workbook();
 
@@ -39,6 +39,14 @@ var generate = function(filename, data, res){
 	// // Set value of cell A3 to true as a boolean type styled with paramaters of style but with an adjustment to the font size.
 	// ws.cell(3,1).bool(true).style(style).style({font: {size: 14}});
 
+	if(mergeCells){
+		for(var c = 0; c < mergeCells.length; c++){
+			var mc = mergeCells[c];
+			ws.cell(mc.startRow, mc.startColumn, mc.endRow, mc.endColumn, true);
+		}		
+	}
+
+
 	//Go through each row in data array
 	for(var row = 0; row < data.length; row++){
 		for(var col = 0; col < data[row].length; col++){
@@ -72,6 +80,9 @@ var generate = function(filename, data, res){
 
 
 	ws.column(3).setWidth(25);
+
+
+
 	var filename = (filename) ? (filename + '.xlsx') : ('output.xlsx');
 	wb.write(filename, res);
 

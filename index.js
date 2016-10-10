@@ -9,6 +9,7 @@ var app = express();
 app.use(bodyParser.json({
 	limit: '50mb'
 }));       // to support JSON-encoded bodies
+
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true,
   limit: '50mb'
@@ -18,9 +19,11 @@ app.use(express.static('view'));
 
 
 app.post('/excel4node/generate', function(req, res){
-	var data = JSON.parse(req.body.data);
-	var filename = req.body.filename;
-	testExcel4Node.generate(filename, data, res);
+		var data = JSON.parse(req.body.data);
+		var filename = req.body.filename ? req.body.filename : undefined;
+		var mergeCells = req.body.mergecells ? JSON.parse(req.body.mergecells) : undefined;
+
+		testExcel4Node.generate(filename, data, mergeCells, res);		
 })
 
 
