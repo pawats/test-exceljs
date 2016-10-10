@@ -1,7 +1,8 @@
 var express = require('express');
-var Excel = require('exceljs');
 var fs = require('fs');
 var bodyParser = require('body-parser');
+var testExceljs = require('./test-exceljs.js');
+var testExcel4Node = require('./test-excel4node.js');
 
 var app = express();
 
@@ -12,28 +13,18 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true,
   limit: '50mb'
 })); 
+
 app.use(express.static('view'));
 
 
-app.post('/file', function (req, res) {
-	var myColumns = ['Name', 'Country'];
-	var myRows = [
-					myColumns, 
-					['Pat', 'Thailand']
-				];
-
-	var filename = 'output.xlsx';
-
-	createExcelFile('MySheet', myRows, filename).then(function(){
-		res.setHeader('Content-disposition', 'attachment; filename='+filename);
-	    var stream = fs.createReadStream(__dirname + '/' + filename);
-	    stream.pipe(res);
-		// res.sendFile(filename, {root: './'});	
-	})
-});
+app.post('/excel4node/generate', function(req, res){
+	var data = req.body.data;
+	var filename = req.body.filename;
+	testExcel4Node.generate(filename, data, res);
+})
 
 
-app.post('/stream', function (req, res) {
+app.post('/exceljs/stream', function (req, res) {
 	var data;
 	var filename = "output.xlsx";
 
@@ -47,7 +38,7 @@ app.post('/stream', function (req, res) {
 
 		//https://github.com/guyonroche/exceljs/issues/150
 		res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-		createExcelStream('MySheet', data, res);
+		testExceljs.createExcelStream('MySheet', data, res);
 
 	}
 	
@@ -57,6 +48,26 @@ app.post('/stream', function (req, res) {
 	}
 
 });
+
+
+app.post('/exceljs/file', function (req, res) {
+	var myColumns = ['Name', 'Country'];
+	var myRows = [
+					myColumns, 
+					['Pat', 'Thailand']
+				];
+
+	var filename = 'output.xlsx';
+
+	testExceljs.createExcelFile('MySheet', myRows, filename).then(function(){
+		res.setHeader('Content-disposition', 'attachment; filename='+filename);
+	    var stream = fs.createReadStream(__dirname + '/' + filename);
+	    stream.pipe(res);
+		// res.sendFile(filename, {root: './'});	
+	})
+});
+
+
 
 app.use(function(err, req, res, next) {
   console.error(err.stack);
@@ -68,58 +79,3 @@ app.listen(3000, function () {
 });
 
 
-
-function createExcelFile(sheetName, rows, filename){
-	var workbook = new Excel.Workbook();
-	workbook.created = new Date();
-	workbook.modified = new Date();
-
-	workbook.views = [
-	  {
-	    x: 0, y: 0, width: 10000, height: 20000, 
-	    firstSheet: 0, activeTab: 1, visibility: 'visible'
-	  }
-	];
-
-	var sheet = workbook.addWorksheet(sheetName, {properties:{tabColor:{argb:'FFC0000'}}});
-	var worksheet = workbook.getWorksheet(sheetName);
-	worksheet.addRows(rows);
-
-	return workbook.xlsx.writeFile(filename)
-};
-
-
-
-function createExcelStream(sheetName, rows, stream){
-	// construct a streaming XLSX workbook writer with styles and shared strings
-	var options = {
-	    // filename: './'+filename,
-	    stream: stream,
-	    useStyles: true,
-	    useSharedStrings: true
-	};
-
-	var workbook = new Excel.stream.xlsx.WorkbookWriter(options);
-	workbook.created = new Date();
-	workbook.modified = new Date();
-
-	workbook.views = [
-	  {
-	    x: 0, y: 0, width: 10000, height: 20000, 
-	    firstSheet: 0, activeTab: 1, visibility: 'visible'
-	  }
-	];
-
-	var sheet = workbook.addWorksheet(sheetName, {properties:{tabColor:{argb:'FFC0000'}}});
-	var worksheet = workbook.getWorksheet(sheetName);
-
-	rows.forEach(function(r){
-		worksheet.addRow(r).commit();		
-	})
-
-	worksheet.commit();
-	workbook.commit();
-	return workbook;
-
-
-};

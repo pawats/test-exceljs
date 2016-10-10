@@ -1,7 +1,8 @@
 <html>
 	<head></head>
 	<body>
-		<a href="index.html">Test Exceljs</a><br>
+		<a href="index.html">Test ExcelJs</a><br>
+		<a href="test-excel4node.html">Test Excel4Node</a><br>
 		<button onclick="fnExcelReport()">To Excel</button>
 		<a id="download" onClick="javascript:fnExcelReport2()">To Excel 2</a>
 
@@ -30,7 +31,7 @@
 
 		<script src='jquery-3.1.1.min.js'></script>
 		<script>
-			var columns = 20;
+			var columns = 5;
 			var tableHead = $('#tableHead');
 			var table = $('#tableBody');
 
@@ -55,7 +56,7 @@
 			}
 			tableHead.append("<tr>" + headerRow + "</tr>");
 
-			for(var i = 0; i < 1000; i++){
+			for(var i = 0; i < 10000; i++){
 				var row = "";
 				for(var c = 0; c < columns; c++){
 					var fruitNumber = Math.floor(Math.random()*fruits.length);
