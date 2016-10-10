@@ -42,6 +42,20 @@ var generate = function(filename, data, mergeCells, res){
 	// // Set value of cell A3 to true as a boolean type styled with paramaters of style but with an adjustment to the font size.
 	// ws.cell(3,1).bool(true).style(style).style({font: {size: 14}});
 
+	ws.addImage({
+	    path: './thumbs-up.jpg',
+	    type: 'picture',
+	    position: {
+	        type: 'oneCellAnchor',
+	        from: {
+	            col: 1,
+	            colOff: '0.5in',
+	            row: 1,
+	            rowOff: 0 
+	        }
+	    }
+	});
+
 	if(mergeCells){
 		for(var c = 0; c < mergeCells.length; c++){
 			var mc = mergeCells[c];
@@ -83,6 +97,7 @@ var generate = function(filename, data, mergeCells, res){
 
 
 	ws.column(3).setWidth(25);
+
 
 
 	var filename = (filename) ? (filename + '.xlsx') : ('output.xlsx');
