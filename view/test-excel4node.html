@@ -54,30 +54,78 @@
 		<script src='jquery-3.1.1.min.js'></script>
 		<script>
 
-		function shuffle(array) {
-		  var currentIndex = array.length, temporaryValue, randomIndex;
+		// function shuffle(array) {
+		//   var currentIndex = array.length, temporaryValue, randomIndex;
 
-		  // While there remain elements to shuffle...
-		  while (0 !== currentIndex) {
+		//   // While there remain elements to shuffle...
+		//   while (0 !== currentIndex) {
 
-		    // Pick a remaining element...
-		    randomIndex = Math.floor(Math.random() * currentIndex);
-		    currentIndex -= 1;
+		//     // Pick a remaining element...
+		//     randomIndex = Math.floor(Math.random() * currentIndex);
+		//     currentIndex -= 1;
 
-		    // And swap it with the current element.
-		    temporaryValue = array[currentIndex];
-		    array[currentIndex] = array[randomIndex];
-		    array[randomIndex] = temporaryValue;
-		  }
+		//     // And swap it with the current element.
+		//     temporaryValue = array[currentIndex];
+		//     array[currentIndex] = array[randomIndex];
+		//     array[randomIndex] = temporaryValue;
+		//   }
 
-		  return array;
-		};
+		//   return array;
+		// };
 
 		function addData(){
 			var names = ['Jane', 'Justin', 'Adam', 'John', 'Jeff', 'Brad', 'Oliver', 'Peter', 'Alice', 'Bob', 'Eve']
-			var fruits = ['apple', 'banana', 'pineapple', 'grapes', 'orange', 'blueberry', 'strawberry'];
-			var columns = 5;
-			var rows = 10000;
+			var fruits = ['apple', 'banana', 'pineapple', 'grapes', 'orange', 'blueberry', 'strawberry', 17];
+			var fruitStyles = [
+				{
+					font: {
+						bold: true,
+						color: 'red'
+					},
+					alignment: {
+						horizontal: 'center'
+					}
+				},
+				{
+					fill: {
+			            type: 'pattern',
+			            patternType: 'solid',
+			            fgColor: 'Yellow'
+					}
+				},
+				undefined,
+				undefined,
+				{
+					font: {
+						size: 18	
+					}
+				},
+				{
+					font: {
+						italics: true
+					},
+					border: {
+						left: {
+							style: "medium",
+							color: "blue"
+						},
+						right: {
+							style: "medium",
+							color: "blue"
+						},
+						top: {
+							style: "medium",
+							color: "blue"
+						},
+						bottom: {
+							style: "medium",
+							color: "blue"
+						}
+					}
+				}
+			];
+			var columns = 10;
+			var rows = 300;
 			var data = [];
 
 			// data.push(names);
@@ -88,17 +136,17 @@
 				//http://stackoverflow.com/questions/597588/how-do-you-clone-an-array-of-objects-in-javascript
 				// data.push(JSON.parse(JSON.stringify(shuffle(fruits))))	
 				for(var c = 0; c < columns; c++){
-					var randFruitNumber = Math.floor(Math.random()*fruits.length);
-					temp.push(fruits[randFruitNumber])
+					var randFruitNumber = Math.floor(Math.random() * fruits.length);
+					temp.push({
+						value: fruits[randFruitNumber],
+						style: fruitStyles[randFruitNumber]
+					})
 				}
 				data.push(temp);
 			}
 
 
 			$('#dataTextarea').val(JSON.stringify(data))
-			// $.post('/stream', {'data': JSON.stringify(data)}, function(res){
-			// 	console.log(res);
-			// })			
 		};
 
 		</script>

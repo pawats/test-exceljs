@@ -18,7 +18,7 @@ app.use(express.static('view'));
 
 
 app.post('/excel4node/generate', function(req, res){
-	var data = req.body.data;
+	var data = JSON.parse(req.body.data);
 	var filename = req.body.filename;
 	testExcel4Node.generate(filename, data, res);
 })
