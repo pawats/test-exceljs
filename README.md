@@ -1,3 +1,8 @@
+## Usage
+- ` npm install `
+- ` npm start `
+- navigate to http://localhost:3000
+
 ## Client-side
 - XML with HTML
 
